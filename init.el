@@ -1,44 +1,15 @@
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("e9d47d6d41e42a8313c81995a60b2af6588e9f01a1cf19ca42669a7ffd5c2fde" default))
- '(package-selected-packages
-   '(markdown-mode company-lsp lsp-ui lsp-mode company cyberpunk-theme)))
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
-
-
-;; Cyberpunk theme.
-(use-package cyberpunk-theme
-  :ensure t
-  :config
-  (load-theme 'cyberpunk 1))
-
+;; Disable splash screen
+(setq inhibit-startup-screen 1)
 
 ;; Enabling IDO mode.
 (ido-mode 1)
 
-
 ;; Tabulation is 4 spaces.
 (setq-default tab-width 4)
-
-
-;; Autocompletion.
-(use-package company
-  :ensure t
-  :config
-  (global-company-mode 1))
-(setq company-minimum-prefix-length 2)
-
 
 ;; Disabling scroll bar.
 (scroll-bar-mode 0)
@@ -59,7 +30,6 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 
-
 ;; Scroll margin
 (setq scroll-margin 10)
 (setq scroll-conservatively 101)
@@ -79,6 +49,42 @@
 ;; Disable fucking ring bell
 (setq ring-bell-function 'ignore)
 
-
 ;; Disable line truncate
 (setq-default truncate-lines t)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
+ '(custom-enabled-themes '(wheatgrass))
+ '(ispell-dictionary nil)
+ '(package-selected-packages '(company)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; use hunspell as a spell checker
+(setq ispell-program-name "hunspell")
+(setq ispell-dictionary "ru_RU") 
+
+;; use flyspell in text mode
+(add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'org-mode-hook  #'flyspell-mode)
+(add-hook 'latex-mode-hook #'flyspell-mode)
+
+
+;; mind M-t to swicth between english and russian dictionaries
+(defun my-flyspell-toggle-dictionary ()
+  (interactive)
+  (if (string= ispell-current-dictionary "ru_RU")
+      (ispell-change-dictionary "en_US")
+    (ispell-change-dictionary "ru_RU")))
+(global-set-key (kbd "M-t") 'my-flyspell-toggle-dictionary)
