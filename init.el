@@ -26,6 +26,10 @@
   :ensure t
   :hook ((emacs-lisp-mode lisp-mode) . enable-paredit-mode))
 
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status))
+
 (use-package company
   :ensure t
   :config (global-company-mode 1))
